@@ -1,4 +1,5 @@
 require 'rli_dayu/version'
+require 'rli_dayu/sms'
 
 module RliDayu
   class << self
