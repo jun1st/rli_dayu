@@ -1,5 +1,7 @@
-require "rli_dayu/version"
+require 'rli_dayu/version'
 
 module RliDayu
-  # Your code goes here...
+  class << self
+    attr_accessor :app_key, :secret
+  end
 end
