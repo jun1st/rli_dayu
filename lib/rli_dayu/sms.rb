@@ -1,9 +1,9 @@
 require 'digest'
+require 'open-uri'
 
 module RliDayu
   module Sms
     def self.send_sms(params)
-
       params = build_params params
 
       uri = URI.parse('https://eco.taobao.com/router/rest')
@@ -20,18 +20,19 @@ module RliDayu
     end
 
     def self.build_params(params = {})
-      _params = {
-        app_key: RliDayu.app_key,
-        method: 'alibaba.aliqin.fc.sms.num.send',
-        timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
-        format: 'json',
-        v: '2.0',
-        sign_method: 'md5',
-        sms_type: 'normal',
-        sms_free_sign_name: params['sms_free_sign_name']
-      }
+      default_params =
+        {
+          app_key: RliDayu.app_key,
+          method: 'alibaba.aliqin.fc.sms.num.send',
+          timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+          format: 'json',
+          v: '2.0',
+          sign_method: 'md5',
+          sms_type: 'normal',
+          sms_free_sign_name: params['sms_free_sign_name']
+        }
 
-      params = _params.merge(params).with_indifferent_access
+      params = default_params.merge(params).with_indifferent_access
 
       check_required_params params
 
@@ -43,8 +44,8 @@ module RliDayu
       params
     end
 
-    def self.check_required_params params
-      %w(app_key sms_param rec_num sms_template_code sms_free_sign_name).each do |param|
+    def self.check_required_params(params)
+      %w[app_key sms_param rec_num sms_template_code sms_free_sign_name].each do |param|
         raise "#{param} cannot be nil" if params[param].blank?
       end
     end
