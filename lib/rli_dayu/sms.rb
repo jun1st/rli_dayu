@@ -1,5 +1,5 @@
 require 'digest'
-require 'open-uri'
+require 'net/http'
 
 module RliDayu
   module Sms
